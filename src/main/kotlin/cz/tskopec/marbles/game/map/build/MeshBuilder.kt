@@ -7,19 +7,20 @@ import org.locationtech.jts.geom.GeometryFactory
 import org.locationtech.jts.triangulate.DelaunayTriangulationBuilder
 import kotlin.random.Random
 
+// Creates Delaunay triangulation of a set of random points and four points in the corners of the window
 object MeshBuilder : GeometryFactory() {
 
-    private const val MIN_VERTEX_DISTANCE = 50.0
-    private const val MAX_VERTICES = 1000
-    private const val PADDING = 23.0
+    private const val MIN_POINT_DISTANCE = 50.0
+    private const val MAX_POINTS = 1000
+    private const val PADDING = 23.0 // min distance of the random points from the window edges
     private val geomFact = GeometryFactory()
 
     fun build(): Geometry {
 
-        val nVertices = (MAX_VERTICES * Settings.smoothnessProperty.get()).toInt()
+        val nPoints = (MAX_POINTS * Settings.smoothnessProperty.get()).toInt()
         val triBuilder = DelaunayTriangulationBuilder()
-        triBuilder.setTolerance(MIN_VERTEX_DISTANCE)
-        triBuilder.setSites(randomPoints(nVertices) + cornerPoints())
+        triBuilder.setTolerance(MIN_POINT_DISTANCE)
+        triBuilder.setSites(randomPoints(nPoints) + cornerPoints())
         return triBuilder.getTriangles(geomFact)
     }
 

@@ -7,13 +7,15 @@ import javafx.beans.binding.Bindings
 import javafx.event.EventHandler
 import javafx.geometry.Insets
 import javafx.scene.Node
-import javafx.scene.control.*
+import javafx.scene.control.Alert
+import javafx.scene.control.Button
+import javafx.scene.control.ButtonType
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import javafx.scene.layout.*
 import javafx.scene.paint.Color
 
-
+// pane containing components for editing the settings of a single player
 fun buildPlayerSettingsView(player: Player): Region = GridPane().apply {
 
     hgap = 10.0
@@ -24,8 +26,8 @@ fun buildPlayerSettingsView(player: Player): Region = GridPane().apply {
     addRow(1, *colorInput("Color: ", player.colorProperty))
     addRow(2, *sliderInput("Aim sensitivity: ", player.controller.aimSensitivity))
     addRow(3, *sliderInput("Shoot sensitivity: ", player.controller.strikeSensitivity))
-    KeyHandler.controls.filter { it.value.owner == player }.forEach {
-       addRow(this.rowCount, setKeyButton(it, this))
+    KeyHandler.controls.filter { it.value.owner == player }.forEach { (code, action) ->
+       addRow(this.rowCount, setKeyButton(action, code, this))
     }
 
 
@@ -35,10 +37,10 @@ fun buildPlayerSettingsView(player: Player): Region = GridPane().apply {
 
 }
 
-private fun setKeyButton(controlEntry: Map.Entry<KeyCode, Action>, view: Region): Node {
+// button for binding a key code to the specified action
+private fun setKeyButton(action: Action, oldCode: KeyCode, view: Region): Node {
 
-    var currentCode = controlEntry.key
-    val action = controlEntry.value
+    var currentCode = oldCode
 
     val button = Button("${action.description}   -   [${currentCode.name}]").apply{
         maxWidth = Double.MAX_VALUE

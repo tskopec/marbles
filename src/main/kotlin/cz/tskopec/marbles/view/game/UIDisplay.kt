@@ -4,11 +4,12 @@ import cz.tskopec.marbles.game.control.GameController
 import javafx.beans.binding.Bindings
 import javafx.beans.binding.StringBinding
 import javafx.scene.control.Label
-import javafx.scene.layout.*
+import javafx.scene.layout.AnchorPane
+import javafx.scene.layout.Pane
+import javafx.scene.layout.StackPane
 import javafx.scene.paint.Color
-import javafx.scene.text.Text
 
-
+// provides view pane containing the cursors and the table of scores
 object UIDisplay {
 
     private val scoreTextProperty: StringBinding = Bindings.createStringBinding(

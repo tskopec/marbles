@@ -1,6 +1,10 @@
 package cz.tskopec.marbles.view.game
 
 import cz.tskopec.marbles.game.Settings
+import cz.tskopec.marbles.game.control.PlayerController
+import cz.tskopec.marbles.game.map.objects.DEFAULT_MARBLE_RADIUS
+import cz.tskopec.marbles.view.game.Cursor.ShapeBuilder.cursorCue
+import cz.tskopec.marbles.view.game.Cursor.ShapeBuilder.cursorRing
 import javafx.beans.binding.Bindings
 import javafx.scene.Group
 import javafx.scene.effect.BoxBlur
@@ -9,12 +13,8 @@ import javafx.scene.shape.Circle
 import javafx.scene.shape.Line
 import javafx.scene.shape.Shape
 import javafx.scene.transform.Rotate
-import cz.tskopec.marbles.game.control.PlayerController
-import cz.tskopec.marbles.game.map.objects.DEFAULT_BALL_RADIUS
-import cz.tskopec.marbles.view.game.Cursor.ShapeBuilder.cursorCue
-import cz.tskopec.marbles.view.game.Cursor.ShapeBuilder.cursorRing
 
-
+// Visual element around the currently selected marble indicating aim direction and strike strength
 class Cursor(private val controller: PlayerController) : Group() {
 
     private val ring = cursorRing()
@@ -37,7 +37,7 @@ class Cursor(private val controller: PlayerController) : Group() {
         visibleProperty().bind(Bindings.isNotNull(controller.selectedMarble))
 
         val cueLength = Bindings.createDoubleBinding(
-            { DEFAULT_BALL_RADIUS * 2 + controller.strikeStrength.get() / 2.0 },
+            { DEFAULT_MARBLE_RADIUS * 2 + controller.strikeStrength.get() / 2.0 },
             controller.strikeStrength
         )
 
@@ -57,7 +57,7 @@ class Cursor(private val controller: PlayerController) : Group() {
 
         private val blurEffect = BoxBlur(2.0, 2.0, 1)
 
-        fun cursorRing() = Circle(DEFAULT_BALL_RADIUS * 1.5, Color.TRANSPARENT).cursorStyle()
+        fun cursorRing() = Circle(DEFAULT_MARBLE_RADIUS * 1.5, Color.TRANSPARENT).cursorStyle()
 
         fun cursorCue() = Line().cursorStyle()
 

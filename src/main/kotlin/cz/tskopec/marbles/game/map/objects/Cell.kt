@@ -3,7 +3,7 @@ package cz.tskopec.marbles.game.map.objects
 import cz.tskopec.marbles.view.game.cellShape
 import org.locationtech.jts.geom.Polygon
 
-
+// triangular cell
 class Cell private constructor(val jtsPolygon: Polygon): Renderable {
 
     override val shape = cellShape(jtsPolygon)

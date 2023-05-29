@@ -3,7 +3,6 @@ package cz.tskopec.marbles.view.game
 import cz.tskopec.marbles.AppController
 import cz.tskopec.marbles.game.Player
 import cz.tskopec.marbles.game.Settings
-import cz.tskopec.marbles.util.randomColor
 import javafx.geometry.Pos
 import javafx.scene.Scene
 import javafx.scene.control.Label
@@ -20,7 +19,9 @@ fun buildGameView() = StackPane(
 )
 
 
-fun buildWinnerView(player: Player) = Label("${player.nameProperty.get()} has won!\nPress any key to continue").apply{
+fun buildWinnerView(player: Player) = Label(
+    "${player.nameProperty.get().uppercase()} HAS WON!\nPRESS ANY KEY TO CONTINUE"
+).apply{
     alignment = Pos.CENTER
     background = Background(BackgroundFill(player.colorProperty.get(), null, null))
     textAlignment = TextAlignment.CENTER

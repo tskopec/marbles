@@ -6,19 +6,20 @@ import cz.tskopec.marbles.game.physics.HoleCollision
 import cz.tskopec.marbles.game.physics.MarbleCollision
 import cz.tskopec.marbles.util.centersDistance
 import cz.tskopec.marbles.view.game.circleShape
-import cz.tskopec.marbles.view.game.toBall
 import cz.tskopec.marbles.view.game.toHole
+import cz.tskopec.marbles.view.game.toMarble
 import javafx.beans.property.SimpleDoubleProperty
 import javafx.scene.shape.Circle
 import org.locationtech.jts.geom.Coordinate
 import org.locationtech.jts.geom.Envelope
 import org.locationtech.jts.math.Vector2D
 
-const val DEFAULT_BALL_RADIUS = 8.0
+const val DEFAULT_MARBLE_RADIUS = 8.0
 
+// common base for marbles and holes
 open class RoundObject(center: Coordinate) : Renderable, Collideable {
 
-    val radius: Double = DEFAULT_BALL_RADIUS
+    val radius: Double = DEFAULT_MARBLE_RADIUS
     val centerXProp = SimpleDoubleProperty(center.x)
     val centerYProp = SimpleDoubleProperty(center.y)
 
@@ -43,7 +44,7 @@ open class RoundObject(center: Coordinate) : Renderable, Collideable {
 
 class Marble(base: RoundObject, val owner: Player) : RoundObject(Coordinate(base.centerX, base.centerY)), Movable {
 
-    override val shape = super.shape.toBall(centerXProp, centerYProp, owner)
+    override val shape = super.shape.toMarble(centerXProp, centerYProp, owner)
 
     override var direction = Vector2D(0.0, 0.0)
     override var speed = 0.0

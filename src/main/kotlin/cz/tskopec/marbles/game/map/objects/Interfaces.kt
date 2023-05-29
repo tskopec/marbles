@@ -12,10 +12,11 @@ interface Renderable {
 	val shape: Shape
 }
 
+// implemented by marbles, holes and wall edges
 interface Collideable {
 
 	val envelope: Envelope
-
+	// returns object for resolving collision of the given marble with this object or null if they are not colliding
 	fun findCollisionWith(marble: Marble): Collision?
 
 	fun overlaps(other: Collideable): Boolean

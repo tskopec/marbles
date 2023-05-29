@@ -11,7 +11,7 @@ import org.locationtech.jts.shape.random.RandomPointsBuilder
 
 
 	fun spawnMarbles(map: GameMap): List<Marble>
-		= spawnRoundObjects(Settings.ballsPerPlayerProperty.get() * 2, map).mapIndexed{ i, baseObj ->
+		= spawnRoundObjects(Settings.marblesPerPlayerProperty.get() * 2, map).mapIndexed{ i, baseObj ->
 			Marble(baseObj, GameController.players[i % 2])
 		}
 

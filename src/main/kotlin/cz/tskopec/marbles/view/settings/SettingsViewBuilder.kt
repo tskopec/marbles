@@ -1,14 +1,14 @@
 package cz.tskopec.marbles.view.settings
 
 import cz.tskopec.marbles.AppController
-import cz.tskopec.marbles.game.control.GameController
 import cz.tskopec.marbles.game.Settings
+import cz.tskopec.marbles.game.control.GameController
 import javafx.geometry.Insets
-import javafx.scene.control.*
+import javafx.scene.control.Button
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.HBox
 
-
+// pane of general game settings
 fun buildSettingsView() = HBox().apply {
 
     children += gameSettingsView()
@@ -28,7 +28,7 @@ private fun gameSettingsView() = GridPane().apply {
     addRow(3, *sliderInput("Map smoothness", Settings.smoothnessProperty))
     addRow(4, *sliderInput("Map density", Settings.densityProperty))
     addRow(5, *sliderInput("Max strength", Settings.maxStrengthProperty, min = 100.0, max = 500.0))
-    addRow(6, *countInput("Balls per player", Settings.ballsPerPlayerProperty))
+    addRow(6, *countInput("Marbles per player", Settings.marblesPerPlayerProperty))
     addRow(7, *countInput("Number of holes", Settings.nHolesProperty))
     addRow(8, *colorInput("Background color", Settings.backgroundColorProperty))
     addRow(9, *colorInput("Wall color", Settings.obstacleColorProperty))

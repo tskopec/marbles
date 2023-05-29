@@ -4,12 +4,13 @@ import cz.tskopec.marbles.AppController
 import cz.tskopec.marbles.game.Loop
 import cz.tskopec.marbles.game.Player
 import cz.tskopec.marbles.game.Settings
+import cz.tskopec.marbles.game.input.Action
 import cz.tskopec.marbles.game.map.GameMap
 import cz.tskopec.marbles.game.map.build.MapFactory
 import cz.tskopec.marbles.game.map.build.spawnMarbles
 import cz.tskopec.marbles.game.physics.PhysicsHandler
-import cz.tskopec.marbles.view.game.MapDisplay
 import cz.tskopec.marbles.util.randomColor
+import cz.tskopec.marbles.view.game.MapDisplay
 import javafx.beans.InvalidationListener
 
 object GameController {
@@ -17,7 +18,10 @@ object GameController {
     val players = List(Settings.nPlayers) { Player(it, randomColor()) }.onEach(::addWinningListener)
     var gameInProgress = false
 
+    val continuousActions = mutableSetOf<Action.Continuing>() // actions bound to currently pressed keys
+    val instantActions = mutableSetOf<Action.Instant>() // actions bound to keys released since the previous frame
     private lateinit var physics: PhysicsHandler
+
 
     fun initializeGame() {
 
@@ -42,7 +46,7 @@ object GameController {
 
     fun nextFrame(elapsedSeconds: Double) {
 
-        players.forEach { it.controller.applyActions(elapsedSeconds) }
+        applyActions(elapsedSeconds)
         physics.update(elapsedSeconds)
     }
 
@@ -51,6 +55,13 @@ object GameController {
 
         if (AppController.confirm("Clear all scores?"))
             players.forEach(Player::clearAllScores)
+    }
+
+
+    private fun applyActions(elapsedSeconds: Double){
+        continuousActions.forEach { it.continuousAction(elapsedSeconds) }
+        instantActions.forEach { it.instantAction() }
+        instantActions.clear()
     }
 
 

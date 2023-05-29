@@ -1,17 +1,18 @@
 package cz.tskopec.marbles.game.physics
 
-import cz.tskopec.marbles.game.map.objects.*
-import cz.tskopec.marbles.util.centersDistance
+import cz.tskopec.marbles.game.map.objects.Marble
+import cz.tskopec.marbles.game.map.objects.WallEdge
 import org.locationtech.jts.math.Vector2D
 
+// Resolves collision of marble and some other object. Collision of two marbles is resolved only once
+// by one instance of MarbleCollision.
+sealed interface Collision {
 
-sealed class Collision() {
-
-    abstract fun resolve()
+    fun resolve()
 }
 
 
-class MarbleCollision(private val thisMarble: Marble, private val otherMarble: Marble) : Collision() {
+class MarbleCollision(private val thisMarble: Marble, private val otherMarble: Marble) : Collision {
 
 
     override fun resolve() {
@@ -31,7 +32,7 @@ class MarbleCollision(private val thisMarble: Marble, private val otherMarble: M
     }
 }
 
-class EdgeCollision(private val thisMarble: Marble, private val edge: WallEdge) : Collision() {
+class WallCollision(private val thisMarble: Marble, private val edge: WallEdge) : Collision {
 
     override fun resolve() {
 
@@ -43,7 +44,7 @@ class EdgeCollision(private val thisMarble: Marble, private val edge: WallEdge) 
     }
 }
 
-class HoleCollision(private val thisMarble: Marble) : Collision() {
+class HoleCollision(private val thisMarble: Marble) : Collision {
 
     override fun resolve() {
 

@@ -6,8 +6,8 @@ import cz.tskopec.marbles.game.map.objects.Renderable
 import org.locationtech.jts.index.quadtree.Quadtree
 
 class GameMap(
-	val scheme: Scheme,
-	val obstacles: Quadtree = Quadtree()
+	val scheme: Scheme, // contains the cells
+	val obstacles: Quadtree = Quadtree() // contains non-moving collideable objects: wall edges and holes
 ) {
 
 	fun insertObstacles(objects: List<Collideable>) = objects.forEach { obstacles.insert(it.envelope, it) }

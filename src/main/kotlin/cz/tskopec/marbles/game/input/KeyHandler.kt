@@ -1,7 +1,6 @@
 package cz.tskopec.marbles.game.input
 
 import cz.tskopec.marbles.game.control.GameController
-import javafx.application.Platform
 import javafx.event.EventHandler
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
@@ -28,17 +27,16 @@ object KeyHandler: EventHandler<KeyEvent> {
 		event?.let {
 
 			val action = controls[event.code] ?: return
-			val controller = action.owner.controller
 			when(event.eventType){
 				KeyEvent.KEY_PRESSED -> {
 					if(action is Action.Continuing)
-						controller.continuousActions += action
+						GameController.continuousActions += action
 				}
 				KeyEvent.KEY_RELEASED -> {
 					if(action is Action.Continuing)
-						controller.continuousActions -= action
+						GameController.continuousActions -= action
 					if(action is Action.Instant)
-						controller.instantActions += action
+						GameController.instantActions += action
 				}
 			}
 		}

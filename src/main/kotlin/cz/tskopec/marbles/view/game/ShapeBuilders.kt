@@ -1,7 +1,6 @@
 package cz.tskopec.marbles.view.game
 
 import cz.tskopec.marbles.game.Player
-import cz.tskopec.marbles.game.Settings
 import cz.tskopec.marbles.game.Settings.obstacleColorProperty
 import javafx.beans.binding.Bindings
 import javafx.beans.property.DoubleProperty
@@ -25,7 +24,7 @@ fun circleShape(
         it.radius = radius
     }
 
-fun Circle.toBall(xProp: DoubleProperty, yProp: DoubleProperty, owner: Player) = also {
+fun Circle.toMarble(xProp: DoubleProperty, yProp: DoubleProperty, owner: Player) = also {
 	it.centerXProperty().bind(xProp)
 	it.centerYProperty().bind(yProp)
 	it.fillProperty().bind(owner.colorProperty)
@@ -39,7 +38,7 @@ fun Circle.toHole() = also { it.fill = Color.BLACK }
 
 fun cellShape(jtsPoly: JTSPolygon): Shape =
 	Polygon(*jtsPoly.coordinates.flatMap { listOf(it.x, it.y) }.toDoubleArray()).apply {
-		fillProperty().bind(Settings.obstacleColorProperty)
+		fillProperty().bind(obstacleColorProperty)
 		strokeProperty().bind(edgeColor)
 	}
 

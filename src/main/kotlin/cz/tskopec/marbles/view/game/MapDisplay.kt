@@ -1,7 +1,7 @@
 package cz.tskopec.marbles.view.game
 
-import cz.tskopec.marbles.game.control.GameController
 import cz.tskopec.marbles.game.Settings
+import cz.tskopec.marbles.game.control.GameController
 import cz.tskopec.marbles.game.map.GameMap
 import cz.tskopec.marbles.game.map.objects.Renderable
 import javafx.beans.binding.Bindings
@@ -18,8 +18,10 @@ import javafx.scene.paint.LinearGradient
 import javafx.scene.paint.Stop
 import javafx.scene.shape.Rectangle
 
+// provides view pane containing the shapes of all marbles and static map objects
 object MapDisplay {
 
+    // all renderable map components must be added to this list by showMap function
     private val terrain: ObservableList<Renderable> = FXCollections.observableArrayList()
 
     private val mapBackground = Rectangle(0.0, 0.0, Settings.mapWidth, Settings.mapHeight).apply {
@@ -46,6 +48,7 @@ object MapDisplay {
         terrain.setAll(map.allTerrain())
     }
 
+    // group of shapes to render, keeping its contents in sync with list of static map objects and marbles of all players
     private fun gameObjects() = Group().apply {
 
         val contentUpdater = ListChangeListener<Renderable> { c ->

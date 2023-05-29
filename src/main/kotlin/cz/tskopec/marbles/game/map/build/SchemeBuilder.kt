@@ -2,12 +2,13 @@ package cz.tskopec.marbles.game.map.build
 
 import cz.tskopec.marbles.game.Settings
 import cz.tskopec.marbles.game.map.objects.Cell
+import cz.tskopec.marbles.util.allPairs
+import cz.tskopec.marbles.util.bfSearch
 import cz.tskopec.marbles.util.getPartsOfType
 import org.locationtech.jts.geom.Geometry
 import org.locationtech.jts.geom.Polygon
-import cz.tskopec.marbles.util.allPairs
-import cz.tskopec.marbles.util.bfSearch
 
+// Converts the mesh of triangles into map cells, and divides these into wall cells and empty cells
 object SchemeBuilder {
 
     fun build(mesh: Geometry): Scheme {
@@ -22,6 +23,7 @@ object SchemeBuilder {
     private fun Geometry.convertToCells() = getPartsOfType<Polygon>().map(Cell.Factory::fromTriangle).toSet()
 
 
+    // creates a graph where each cell is linked to all its neighbours
     private fun buildCellGraph(cells: Collection<Cell>): Map<Cell, List<Cell>> {
 
         return cells.flatMap { it.edgeToCellPairs }
@@ -32,6 +34,8 @@ object SchemeBuilder {
             .groupBy({ it.first }, { it.second })
     }
 
+    // selects some subset of connected cells from the graph by repeatedly selecting two random cells and all the cells constituting
+    // the shortest path between them, until the selected set reaches size prescribed by the desired map density
     private fun tunnel(cellGraph: Map<Cell, List<Cell>>): Set<Cell> {
 
         val tunnelCells = mutableSetOf<Cell>()

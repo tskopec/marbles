@@ -1,7 +1,6 @@
 package cz.tskopec.marbles.game.control
 
 import cz.tskopec.marbles.game.Settings
-import cz.tskopec.marbles.game.input.Action
 import cz.tskopec.marbles.game.map.objects.Marble
 import javafx.beans.binding.Bindings
 import javafx.beans.property.SimpleDoubleProperty
@@ -15,15 +14,13 @@ import kotlin.math.cos
 import kotlin.math.sign
 import kotlin.math.sin
 
-class PlayerController() {
+class PlayerController {
 
     val cueAngle = SimpleDoubleProperty(0.0)
     val strikeStrength = SimpleDoubleProperty(0.0)
     val aimSensitivity = SimpleDoubleProperty(0.5)
     val strikeSensitivity = SimpleDoubleProperty(0.5)
 
-    val continuousActions = mutableSetOf<Action.Continuing>()
-    val instantActions = mutableSetOf<Action.Instant>()
 
     val marbles: ObservableList<Marble> = FXCollections.observableArrayList()
     private val selectedMarbleIndex = SimpleIntegerProperty(-1)
@@ -34,11 +31,6 @@ class PlayerController() {
         marbles.addListener(ListChangeListener { updateSelection() })
     }
     
-    fun applyActions(elapsedSeconds: Double){
-        continuousActions.forEach { it.continuousAction(elapsedSeconds) }
-        instantActions.forEach { it.instantAction() }
-        instantActions.clear()
-    }
 
     fun updateSelection() {
 

@@ -9,7 +9,7 @@ object MapFactory {
 		val mesh = MeshBuilder.build()
 		val scheme = SchemeBuilder.build(mesh)
 		return GameMap(scheme).apply{
-			insertObstacles(screenEdges())
+			insertObstacles(mapEdges())
 			insertObstacles(findWallEdges(scheme))
 			insertObstacles(spawnHoles(this))
 		}
